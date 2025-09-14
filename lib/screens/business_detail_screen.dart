@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../data/models/business.dart';
 import '../utils/constants.dart';
 
@@ -8,10 +9,7 @@ import '../utils/constants.dart';
 class BusinessDetailScreen extends StatelessWidget {
   final Business business;
 
-  const BusinessDetailScreen({
-    Key? key,
-    required this.business,
-  }) : super(key: key);
+  const BusinessDetailScreen({super.key, required this.business});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +17,7 @@ class BusinessDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           business.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 18.0),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
@@ -42,11 +37,11 @@ class BusinessDetailScreen extends StatelessWidget {
             // Business header card
             _buildHeaderCard(context),
             const SizedBox(height: 16.0),
-            
+
             // Contact information card
             _buildContactCard(context),
             const SizedBox(height: 16.0),
-            
+
             // Action buttons
             _buildActionButtons(context),
           ],
@@ -75,7 +70,7 @@ class BusinessDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            
+
             // Business ID (for debugging)
             Text(
               'ID: ${business.id}',
@@ -103,12 +98,12 @@ class BusinessDetailScreen extends StatelessWidget {
           children: [
             Text(
               'Contact Information',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16.0),
-            
+
             // Location
             _buildInfoRow(
               context,
@@ -117,7 +112,7 @@ class BusinessDetailScreen extends StatelessWidget {
               value: business.location,
             ),
             const SizedBox(height: 12.0),
-            
+
             // Phone number
             _buildInfoRow(
               context,
@@ -152,9 +147,10 @@ class BusinessDetailScreen extends StatelessWidget {
             Icon(
               icon,
               size: 20.0,
-              color: isClickable 
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onSurfaceVariant,
+              color:
+                  isClickable
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 12.0),
             Expanded(
@@ -172,10 +168,12 @@ class BusinessDetailScreen extends StatelessWidget {
                   Text(
                     value,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: isClickable 
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).colorScheme.onSurface,
-                      fontWeight: isClickable ? FontWeight.w500 : FontWeight.normal,
+                      color:
+                          isClickable
+                              ? Theme.of(context).primaryColor
+                              : Theme.of(context).colorScheme.onSurface,
+                      fontWeight:
+                          isClickable ? FontWeight.w500 : FontWeight.normal,
                     ),
                   ),
                 ],
@@ -208,13 +206,15 @@ class BusinessDetailScreen extends StatelessWidget {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.cardBorderRadius,
+                ),
               ),
             ),
           ),
         ),
         const SizedBox(height: 12.0),
-        
+
         // Copy contact info button
         SizedBox(
           width: double.infinity,
@@ -226,7 +226,9 @@ class BusinessDetailScreen extends StatelessWidget {
               foregroundColor: Theme.of(context).primaryColor,
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.cardBorderRadius,
+                ),
               ),
             ),
           ),
@@ -241,10 +243,14 @@ class BusinessDetailScreen extends StatelessWidget {
       if (await canLaunchUrl(phoneUri)) {
         await launchUrl(phoneUri);
       } else {
-        _showSnackBar(context, 'Could not make phone call');
+        if (context.mounted) {
+          _showSnackBar(context, 'Could not make phone call');
+        }
       }
     } catch (e) {
-      _showSnackBar(context, 'Error making phone call: $e');
+      if (context.mounted) {
+        _showSnackBar(context, 'Error making phone call: $e');
+      }
     }
   }
 
@@ -254,7 +260,7 @@ ${business.name}
 ${business.location}
 ${business.contactNumber}
 ''';
-    
+
     Clipboard.setData(ClipboardData(text: contactInfo));
     _showSnackBar(context, 'Contact info copied to clipboard');
   }
@@ -265,7 +271,7 @@ Check out ${business.name}!
 📍 ${business.location}
 📞 ${business.contactNumber}
 ''';
-    
+
     // For now, just copy to clipboard
     // In a real app, you'd use a share plugin
     Clipboard.setData(ClipboardData(text: shareText));
@@ -274,10 +280,7 @@ Check out ${business.name}!
 
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 2),
-      ),
+      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
     );
   }
 }

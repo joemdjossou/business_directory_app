@@ -18,22 +18,25 @@ A Flutter mini-app that displays a list of businesses with search functionality,
 ## Architecture
 
 ### State Management
+
 - **Provider Pattern** for lightweight, testable state management
 - Clear state transitions: `initial` → `loading` → `loaded/error/empty`
 - Offline-first strategy with background refresh
 
 ### Data Layer
+
 ```
 UI Layer (Widgets)
     ↓
 Provider (State Management)
     ↓
-Repository (Data Coordination)  
+Repository (Data Coordination)
     ↓
 Services (API + Local Storage)
 ```
 
 ### Reusable Components
+
 - `BaseCard<T>` - Generic abstract widget for any data type
 - `BusinessCard` - Concrete implementation for Business model
 - `ServiceCard` - Future implementation for Service model
@@ -41,6 +44,7 @@ Services (API + Local Storage)
 ## Getting Started
 
 ### Prerequisites
+
 - Flutter SDK (latest stable version)
 - Dart SDK
 - Android Studio / VS Code
@@ -49,22 +53,26 @@ Services (API + Local Storage)
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone <repository-url>
 cd business_directory_app
 ```
 
 2. **Install dependencies**
+
 ```bash
 flutter pub get
 ```
 
 3. **Run the app**
+
 ```bash
 flutter run
 ```
 
 ### Testing
+
 ```bash
 # Run all tests
 flutter test
@@ -77,6 +85,7 @@ flutter analyze
 ```
 
 ### Building
+
 ```bash
 # Debug APK
 flutter build apk --debug
@@ -136,14 +145,18 @@ This project follows a structured development approach with meaningful commits:
 ## Key Technical Decisions
 
 ### Data Normalization
+
 Transforms messy JSON keys into clean domain models:
+
 ```dart
 // Raw JSON: {"biz_name": "...", "bss_location": "...", "contct_no": "..."}
 // Becomes: Business(name: "...", location: "...", contactNumber: "...")
 ```
 
 ### Generic Card System
+
 Reusable components through composition:
+
 ```dart
 abstract class BaseCard<T> extends StatelessWidget {
   Widget buildContent(BuildContext context, T item);
@@ -154,6 +167,7 @@ class ServiceCard extends BaseCard<Service> { ... }
 ```
 
 ### Offline-First Strategy
+
 1. Load from cache immediately (if available)
 2. Fetch fresh data in background
 3. Update UI when fresh data arrives

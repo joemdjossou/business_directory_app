@@ -12,7 +12,7 @@ import 'search_screen.dart';
 
 /// Main business list screen with search and filtering
 class BusinessListScreen extends StatefulWidget {
-  const BusinessListScreen({Key? key}) : super(key: key);
+  const BusinessListScreen({super.key});
 
   @override
   State<BusinessListScreen> createState() => _BusinessListScreenState();
@@ -194,7 +194,9 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
                 vertical: 4.0,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                color: Theme.of(
+                  context,
+                ).colorScheme.error.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: Row(

@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
+
 import '../../data/models/business.dart';
 import 'base_card.dart';
 
 /// Business-specific card implementation
 class BusinessCard extends BaseCard<Business> {
   const BusinessCard({
-    Key? key,
+    super.key,
     required Business business,
-    VoidCallback? onTap,
-    EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? margin,
-    double? elevation,
-    BorderRadius? borderRadius,
-  }) : super(
-          key: key,
-          item: business,
-          onTap: onTap,
-          padding: padding,
-          margin: margin,
-          elevation: elevation,
-          borderRadius: borderRadius,
-        );
+    super.onTap,
+    super.padding,
+    super.margin,
+    super.elevation,
+    super.borderRadius,
+  }) : super(item: business);
 
   @override
   Widget buildContent(BuildContext context, Business business) {
@@ -38,7 +31,7 @@ class BusinessCard extends BaseCard<Business> {
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 8.0),
-        
+
         // Location
         Row(
           children: [
@@ -61,7 +54,7 @@ class BusinessCard extends BaseCard<Business> {
           ],
         ),
         const SizedBox(height: 8.0),
-        
+
         // Contact number
         Row(
           children: [
@@ -83,7 +76,7 @@ class BusinessCard extends BaseCard<Business> {
             ),
           ],
         ),
-        
+
         // Action indicator
         if (onTap != null) ...[
           const SizedBox(height: 12.0),

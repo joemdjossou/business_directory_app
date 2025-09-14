@@ -12,14 +12,14 @@ class EmptyStateWidget extends StatelessWidget {
   final bool isSearch;
 
   const EmptyStateWidget({
-    Key? key,
+    super.key,
     this.title,
     this.message,
     this.icon,
     this.onAction,
     this.actionText,
     this.isSearch = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class EmptyStateWidget extends StatelessWidget {
               size: 64.0,
               color: Theme.of(
                 context,
-              ).colorScheme.onSurfaceVariant.withOpacity(0.6),
+              ).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 16.0),
 
@@ -59,7 +59,7 @@ class EmptyStateWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(
                   context,
-                ).colorScheme.onSurfaceVariant.withOpacity(0.8),
+                ).colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
               ),
               textAlign: TextAlign.center,
             ),

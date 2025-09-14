@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
+
 import '../../data/models/service.dart';
 import 'base_card.dart';
 
 /// Service-specific card implementation for future extensibility
 class ServiceCard extends BaseCard<Service> {
   const ServiceCard({
-    Key? key,
+    super.key,
     required Service service,
-    VoidCallback? onTap,
-    EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? margin,
-    double? elevation,
-    BorderRadius? borderRadius,
-  }) : super(
-          key: key,
-          item: service,
-          onTap: onTap,
-          padding: padding,
-          margin: margin,
-          elevation: elevation,
-          borderRadius: borderRadius,
-        );
+    super.onTap,
+    super.padding,
+    super.margin,
+    super.elevation,
+    super.borderRadius,
+  }) : super(item: service);
 
   @override
   Widget buildContent(BuildContext context, Service service) {
@@ -38,12 +31,12 @@ class ServiceCard extends BaseCard<Service> {
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 8.0),
-        
+
         // Category
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(
@@ -55,7 +48,7 @@ class ServiceCard extends BaseCard<Service> {
           ),
         ),
         const SizedBox(height: 8.0),
-        
+
         // Description
         Text(
           service.description,
@@ -65,7 +58,7 @@ class ServiceCard extends BaseCard<Service> {
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
-        
+
         // Price
         if (service.price != null) ...[
           const SizedBox(height: 8.0),
@@ -82,7 +75,7 @@ class ServiceCard extends BaseCard<Service> {
             ],
           ),
         ],
-        
+
         // Action indicator
         if (onTap != null) ...[
           const SizedBox(height: 12.0),

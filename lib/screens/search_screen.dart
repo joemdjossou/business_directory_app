@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/business_provider.dart';
-import '../widgets/cards/business_card.dart';
-import '../widgets/common/loading_widget.dart';
-import '../widgets/common/empty_state_widget.dart';
 import '../utils/constants.dart';
+import '../widgets/cards/business_card.dart';
+import '../widgets/common/empty_state_widget.dart';
+import '../widgets/common/loading_widget.dart';
 import 'business_detail_screen.dart';
 
 /// Search screen with real-time search functionality
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -52,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           // Search bar
           _buildSearchBar(),
-          
+
           // Search results
           Expanded(
             child: Consumer<BusinessProvider>(
@@ -79,20 +80,25 @@ class _SearchScreenState extends State<SearchScreen> {
             decoration: InputDecoration(
               hintText: 'Search by name or location...',
               prefixIcon: const Icon(Icons.search),
-              suffixIcon: _searchController.text.isNotEmpty
-                  ? IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: _clearSearch,
-                    )
-                  : null,
+              suffixIcon:
+                  _searchController.text.isNotEmpty
+                      ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: _clearSearch,
+                      )
+                      : null,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.cardBorderRadius,
+                ),
                 borderSide: BorderSide(
                   color: Theme.of(context).colorScheme.outline,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.cardBorderRadius,
+                ),
                 borderSide: BorderSide(
                   color: Theme.of(context).primaryColor,
                   width: 2.0,
@@ -103,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
             textInputAction: TextInputAction.search,
             onSubmitted: _onSearchSubmitted,
           ),
-          
+
           // Search suggestions
           if (_searchController.text.isEmpty) _buildSearchSuggestions(),
         ],
@@ -149,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
         _searchController.text = text;
         _onSearchChanged(text);
       },
-      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+      backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
       labelStyle: TextStyle(
         color: Theme.of(context).primaryColor,
         fontWeight: FontWeight.w500,
@@ -163,10 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
     }
 
     if (provider.isLoading) {
-      return const LoadingWidget(
-        message: 'Searching...',
-        showSkeleton: false,
-      );
+      return const LoadingWidget(message: 'Searching...', showSkeleton: false);
     }
 
     if (provider.businesses.isEmpty) {
@@ -200,7 +203,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ],
           ),
         ),
-        
+
         // Results list
         Expanded(
           child: ListView.builder(
@@ -229,7 +232,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Icon(
               Icons.search,
               size: 64.0,
-              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 16.0),
             Text(
@@ -243,7 +248,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Text(
               'Enter a business name or location to search',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
               ),
               textAlign: TextAlign.center,
             ),
