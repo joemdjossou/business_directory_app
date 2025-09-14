@@ -58,49 +58,39 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
           ),
         ],
       ),
-      body: Consumer<BusinessProvider>(
-        builder: (context, provider, child) {
-          return RefreshIndicator(
-            onRefresh: () => provider.refresh(),
-            child: _buildBody(provider),
-          );
-        },
-      ),
-      floatingActionButton: Consumer<BusinessProvider>(
-        builder: (context, provider, child) {
-          if (provider.isOffline) {
-            return AnimatedFAB(
-              onPressed: () => _refreshBusinesses(),
-              backgroundColor: Theme.of(context).colorScheme.error,
-              tooltip: 'Retry Connection',
-              child: const Icon(Icons.wifi_off),
-            );
-          }
-          return ExpandableFAB(
-            items: [
-              FABMenuItem(
-                icon: const Icon(Icons.search),
-                label: 'Search',
-                onPressed: _navigateToSearch,
-              ),
-              FABMenuItem(
-                icon: const Icon(Icons.refresh),
-                label: 'Refresh',
-                onPressed: _refreshBusinesses,
-              ),
-              FABMenuItem(
-                icon: const Icon(Icons.filter_list),
-                label: 'Filter',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Filter coming soon!')),
+      body: Stack(
+        children: [
+          Consumer<BusinessProvider>(
+            builder: (context, provider, child) {
+              return RefreshIndicator(
+                onRefresh: () => provider.refresh(),
+                child: _buildBody(provider),
+              );
+            },
+          ),
+          // Positioned FAB
+          Positioned(
+            right: 16.0,
+            bottom: 16.0,
+            child: Consumer<BusinessProvider>(
+              builder: (context, provider, child) {
+                if (provider.isOffline) {
+                  return AnimatedFAB(
+                    onPressed: () => _refreshBusinesses(),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    tooltip: 'Retry Connection',
+                    child: const Icon(Icons.wifi_off),
                   );
-                },
-              ),
-            ],
-            child: const Icon(Icons.menu),
-          );
-        },
+                }
+                return AnimatedFAB(
+                  onPressed: _navigateToSearch,
+                  tooltip: 'Search Businesses',
+                  child: const Icon(Icons.search),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -251,8 +241,8 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const SearchScreen(),
+        pageBuilder:
+            (context, animation, secondaryAnimation) => const SearchScreen(),
         transitionDuration: const Duration(milliseconds: 400),
         reverseTransitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -260,14 +250,10 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
             position: Tween<Offset>(
               begin: const Offset(0.0, 1.0),
               end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOutCubic,
-            )),
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
+            ).animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
             ),
+            child: FadeTransition(opacity: animation, child: child),
           );
         },
       ),
@@ -279,8 +265,9 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            BusinessDetailScreen(business: business),
+        pageBuilder:
+            (context, animation, secondaryAnimation) =>
+                BusinessDetailScreen(business: business),
         transitionDuration: const Duration(milliseconds: 400),
         reverseTransitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -288,14 +275,10 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
             position: Tween<Offset>(
               begin: const Offset(1.0, 0.0),
               end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOutCubic,
-            )),
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
+            ).animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
             ),
+            child: FadeTransition(opacity: animation, child: child),
           );
         },
       ),

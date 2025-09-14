@@ -185,23 +185,24 @@ class _ExpandableFABState extends State<ExpandableFAB>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Stack(
+      alignment: Alignment.bottomRight,
       children: [
         // Backdrop
         if (_isExpanded)
-          GestureDetector(
-            onTap: _toggle,
-            child: AnimatedBuilder(
-              animation: _expandAnimation,
-              builder: (context, child) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  color: Colors.black.withValues(alpha: 0.3 * _expandAnimation.value),
-                );
-              },
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _toggle,
+              child: AnimatedBuilder(
+                animation: _expandAnimation,
+                builder: (context, child) {
+                  return Container(
+                    color: Colors.black.withValues(
+                      alpha: (0.3 * _expandAnimation.value).clamp(0.0, 1.0),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         
@@ -210,69 +211,70 @@ class _ExpandableFABState extends State<ExpandableFAB>
           final index = entry.key;
           final item = entry.value;
           
-          return AnimatedBuilder(
-            animation: _expandAnimation,
-            builder: (context, child) {
-              final delay = index * 0.1;
-              final adjustedAnimation = Tween<double>(
-                begin: 0.0,
-                end: 1.0,
-              ).animate(CurvedAnimation(
-                parent: _controller,
-                curve: Interval(delay, 1.0, curve: AnimationUtils.bounceCurve),
-              ));
-              
-              return Transform.translate(
-                offset: Offset(0, -60.0 * adjustedAnimation.value * (index + 1)),
-                child: Transform.scale(
-                  scale: adjustedAnimation.value,
+          return Positioned(
+            right: 8.0,
+            bottom: 80.0 + (index * 70.0), // Stack items vertically
+            child: AnimatedBuilder(
+              animation: _expandAnimation,
+              builder: (context, child) {
+                final delay = index * 0.1;
+                final delayedAnimation = CurvedAnimation(
+                  parent: _controller,
+                  curve: Interval(
+                    delay.clamp(0.0, 0.8), // Ensure valid interval
+                    1.0,
+                    curve: AnimationUtils.bounceCurve,
+                  ),
+                );
+                
+                final animationValue = delayedAnimation.value.clamp(0.0, 1.0);
+                
+                return Transform.scale(
+                  scale: animationValue,
                   child: Opacity(
-                    opacity: adjustedAnimation.value,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0, right: 8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (item.label != null) ...[
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 8.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surface,
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.1),
-                                    blurRadius: 4.0,
-                                    offset: const Offset(0, 2.0),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                item.label!,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
+                    opacity: animationValue,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (item.label != null) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 8.0,
                             ),
-                            const SizedBox(width: 12.0),
-                          ],
-                          FloatingActionButton(
-                            mini: true,
-                            onPressed: () {
-                              _toggle();
-                              item.onPressed?.call();
-                            },
-                            backgroundColor: item.backgroundColor,
-                            child: item.icon,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: BorderRadius.circular(8.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 4.0,
+                                  offset: const Offset(0, 2.0),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              item.label!,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                           ),
+                          const SizedBox(width: 12.0),
                         ],
-                      ),
+                        FloatingActionButton(
+                          mini: true,
+                          onPressed: () {
+                            _toggle();
+                            item.onPressed?.call();
+                          },
+                          backgroundColor: item.backgroundColor,
+                          child: item.icon,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         }),
         

@@ -42,25 +42,18 @@ class _BusinessCardState extends State<BusinessCard>
       duration: AnimationUtils.normalDuration,
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: AnimationUtils.defaultCurve,
-    ));
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: AnimationUtils.defaultCurve),
+    );
 
     // Entrance animation with stagger
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(
-        Duration(milliseconds: (widget.index ?? 0) * 100),
-        () {
-          if (mounted) {
-            _controller.forward();
-          }
-        },
-      );
+      Future.delayed(Duration(milliseconds: (widget.index ?? 0) * 100), () {
+        if (mounted) {
+          _controller.forward();
+        }
+      });
     });
   }
 
@@ -89,14 +82,13 @@ class _BusinessCardState extends State<BusinessCard>
             child: AnimatedContainer(
               duration: AnimationUtils.fastDuration,
               curve: AnimationUtils.smoothCurve,
-              margin: widget.margin ?? const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 4.0,
-              ),
-              transform: Matrix4.identity()
-                ..scale(_isHovered ? 1.02 : 1.0),
+              margin:
+                  widget.margin ??
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              transform: Matrix4.identity()..scale(_isHovered ? 1.02 : 1.0),
               decoration: BoxDecoration(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(12.0),
+                borderRadius:
+                    widget.borderRadius ?? BorderRadius.circular(12.0),
                 boxShadow: [
                   BoxShadow(
                     color: AppColorScheme.primaryGreen.withValues(
@@ -111,23 +103,33 @@ class _BusinessCardState extends State<BusinessCard>
                 elevation: widget.elevation ?? (_isHovered ? 8.0 : 2.0),
                 margin: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
-                  borderRadius: widget.borderRadius ?? BorderRadius.circular(12.0),
+                  borderRadius:
+                      widget.borderRadius ?? BorderRadius.circular(12.0),
                 ),
                 child: InkWell(
                   onTap: widget.onTap,
-                  borderRadius: widget.borderRadius ?? BorderRadius.circular(12.0),
+                  borderRadius:
+                      widget.borderRadius ?? BorderRadius.circular(12.0),
                   child: Container(
                     padding: widget.padding ?? const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      borderRadius: widget.borderRadius ?? BorderRadius.circular(12.0),
-                      gradient: _isHovered ? LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColorScheme.primaryGreen.withValues(alpha: 0.05),
-                          AppColorScheme.primaryGreenLight.withValues(alpha: 0.02),
-                        ],
-                      ) : null,
+                      borderRadius:
+                          widget.borderRadius ?? BorderRadius.circular(12.0),
+                      gradient:
+                          _isHovered
+                              ? LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  AppColorScheme.primaryGreen.withValues(
+                                    alpha: 0.05,
+                                  ),
+                                  AppColorScheme.primaryGreenLight.withValues(
+                                    alpha: 0.02,
+                                  ),
+                                ],
+                              )
+                              : null,
                     ),
                     child: _buildContent(context),
                   ),
@@ -147,10 +149,10 @@ class _BusinessCardState extends State<BusinessCard>
         // Business name with gradient effect and animation
         AnimatedContainer(
           duration: AnimationUtils.fastDuration,
-          transform: Matrix4.identity()
-            ..translate(_isHovered ? 4.0 : 0.0, 0.0),
+          transform: Matrix4.identity()..translate(_isHovered ? 4.0 : 0.0, 0.0),
           child: ShaderMask(
-            shaderCallback: (bounds) => AppColorScheme.primaryGradient.createShader(bounds),
+            shaderCallback:
+                (bounds) => AppColorScheme.primaryGradient.createShader(bounds),
             child: Text(
               widget.business.name,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -213,8 +215,8 @@ class _BusinessCardState extends State<BusinessCard>
           const SizedBox(height: 16.0),
           AnimatedContainer(
             duration: AnimationUtils.fastDuration,
-            transform: Matrix4.identity()
-              ..translate(_isHovered ? 8.0 : 0.0, 0.0),
+            transform:
+                Matrix4.identity()..translate(_isHovered ? 8.0 : 0.0, 0.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -245,7 +247,12 @@ class _BusinessCardState extends State<BusinessCard>
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, IconData icon, String text, Color iconColor) {
+  Widget _buildInfoRow(
+    BuildContext context,
+    IconData icon,
+    String text,
+    Color iconColor,
+  ) {
     return Row(
       children: [
         AnimatedContainer(
@@ -255,11 +262,7 @@ class _BusinessCardState extends State<BusinessCard>
             color: iconColor.withValues(alpha: _isHovered ? 0.15 : 0.1),
             borderRadius: BorderRadius.circular(6.0),
           ),
-          child: Icon(
-            icon,
-            size: 16.0,
-            color: iconColor,
-          ),
+          child: Icon(icon, size: 16.0, color: iconColor),
         ),
         const SizedBox(width: 12.0),
         Expanded(
@@ -269,11 +272,7 @@ class _BusinessCardState extends State<BusinessCard>
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontWeight: _isHovered ? FontWeight.w500 : FontWeight.normal,
             ),
-            child: Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
           ),
         ),
       ],

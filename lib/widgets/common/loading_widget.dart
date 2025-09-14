@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/animation_utils.dart';
 import '../../utils/color_scheme.dart';
 import '../../utils/constants.dart';
@@ -8,11 +9,7 @@ class LoadingWidget extends StatefulWidget {
   final String? message;
   final bool showSkeleton;
 
-  const LoadingWidget({
-    super.key,
-    this.message,
-    this.showSkeleton = true,
-  });
+  const LoadingWidget({super.key, this.message, this.showSkeleton = true});
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -28,33 +25,25 @@ class _LoadingWidgetState extends State<LoadingWidget>
   @override
   void initState() {
     super.initState();
-    
+
     _rotationController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    
+
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
-    _rotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _rotationController,
-      curve: Curves.linear,
-    ));
-    
-    _pulseAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.elasticInOut,
-    ));
-    
+
+    _rotationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _rotationController, curve: Curves.linear),
+    );
+
+    _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.elasticInOut),
+    );
+
     _rotationController.repeat();
     _pulseController.repeat(reverse: true);
   }
@@ -91,7 +80,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
                           gradient: AppColorScheme.circularGradient,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColorScheme.primaryGreen.withValues(alpha: 0.3),
+                              color: AppColorScheme.primaryGreen.withValues(
+                                alpha: 0.3,
+                              ),
                               blurRadius: 20.0,
                               spreadRadius: 5.0,
                             ),
@@ -116,9 +107,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
               );
             },
           ),
-          
+
           const SizedBox(height: 32.0),
-          
+
           // Animated loading message
           if (widget.message != null)
             TweenAnimationBuilder<double>(
@@ -142,15 +133,12 @@ class _LoadingWidgetState extends State<LoadingWidget>
                 );
               },
             ),
-          
+
           const SizedBox(height: 24.0),
-          
+
           // Beautiful animated dots
-          const LoadingDots(
-            color: AppColorScheme.primaryGreen,
-            size: 10.0,
-          ),
-          
+          const LoadingDots(color: AppColorScheme.primaryGreen, size: 10.0),
+
           // Skeleton cards if enabled
           if (widget.showSkeleton) ...[
             const SizedBox(height: 48.0),
@@ -186,7 +174,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
               height: 120.0,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.cardBorderRadius,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: AppColorScheme.primaryGreen.withValues(alpha: 0.1),
@@ -206,33 +196,39 @@ class _LoadingWidgetState extends State<LoadingWidget>
                         width: 200.0,
                         height: 20.0,
                         decoration: BoxDecoration(
-                          color: AppColorScheme.primaryGreen.withValues(alpha: 0.1),
+                          color: AppColorScheme.primaryGreen.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(4.0),
                         ),
                       ),
                     ),
                     const SizedBox(height: 12.0),
-                    
+
                     // Animated shimmer location
                     AnimationUtils.shimmerEffect(
                       child: Container(
                         width: 150.0,
                         height: 16.0,
                         decoration: BoxDecoration(
-                          color: AppColorScheme.primaryGreen.withValues(alpha: 0.08),
+                          color: AppColorScheme.primaryGreen.withValues(
+                            alpha: 0.08,
+                          ),
                           borderRadius: BorderRadius.circular(4.0),
                         ),
                       ),
                     ),
                     const SizedBox(height: 8.0),
-                    
+
                     // Animated shimmer contact
                     AnimationUtils.shimmerEffect(
                       child: Container(
                         width: 120.0,
                         height: 16.0,
                         decoration: BoxDecoration(
-                          color: AppColorScheme.primaryGreen.withValues(alpha: 0.08),
+                          color: AppColorScheme.primaryGreen.withValues(
+                            alpha: 0.08,
+                          ),
                           borderRadius: BorderRadius.circular(4.0),
                         ),
                       ),
