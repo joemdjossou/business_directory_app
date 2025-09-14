@@ -4,15 +4,16 @@ A beautiful, modern Flutter application showcasing enterprise-grade development 
 
 ## Screenshots
 
-| Business List | Business Detail | Search Interface |
-|---------------|-----------------|------------------|
-| ![Business List](screenshot_1.png) | ![Business Detail](screenshot_2.png) | *Modern, animated interface* |
+| Business List                      | Business Detail                      | Search Interface             |
+| ---------------------------------- | ------------------------------------ | ---------------------------- |
+| ![Business List](screenshot_1.png) | ![Business Detail](screenshot_2.png) | _Modern, animated interface_ |
 
-*Modern design with Geny-inspired color scheme, smooth animations, and Material 3 styling*
+_Modern design with Geny-inspired color scheme, smooth animations, and Material 3 styling_
 
 ## ✨ Features
 
 ### 🎨 **Advanced UI/UX**
+
 - ✅ **Geny-Inspired Design**: Custom color scheme with professional branding
 - ✅ **Comprehensive Animations**: Staggered entrance, hover effects, gradient text, shimmer loading
 - ✅ **Animated FAB**: Interactive floating action button with smooth transitions
@@ -20,6 +21,7 @@ A beautiful, modern Flutter application showcasing enterprise-grade development 
 - ✅ **Responsive Design**: Optimized for different screen sizes and touch targets
 
 ### 📱 **Core Functionality**
+
 - ✅ **Business Listings**: Beautifully animated business cards with search functionality
 - ✅ **Detail Screens**: Full business information with contact actions (call, copy, share)
 - ✅ **Real-time Search**: Instant search with smooth page transitions
@@ -27,6 +29,7 @@ A beautiful, modern Flutter application showcasing enterprise-grade development 
 - ✅ **Error Handling**: Elegant loading, empty, error, and retry states
 
 ### 🏗️ **Architecture & Quality**
+
 - ✅ **Provider State Management**: Comprehensive state management with clear transitions
 - ✅ **Clean Architecture**: Separation of data, business logic, and presentation layers
 - ✅ **Enterprise Testing**: 69 comprehensive tests (unit, widget, integration)
@@ -100,7 +103,7 @@ flutter test --coverage
 
 # Run specific test suites
 flutter test test/unit/          # Unit tests
-flutter test test/widget/        # Widget tests  
+flutter test test/widget/        # Widget tests
 flutter test test/integration/   # Integration tests
 
 # Analyze code (zero errors expected)
@@ -212,6 +215,7 @@ class ServiceCard extends BaseCard<Service> { ... }
 ## 📦 Dependencies
 
 ### Core Dependencies
+
 - **provider**: Advanced state management with reactive patterns
 - **dio**: Professional HTTP client with interceptors and error handling
 - **shared_preferences**: Persistent local storage
@@ -219,8 +223,9 @@ class ServiceCard extends BaseCard<Service> { ... }
 - **url_launcher**: External URL/phone launching capabilities
 
 ### Development & Testing
+
 - **flutter_test**: Widget and unit testing framework
-- **integration_test**: End-to-end testing capabilities  
+- **integration_test**: End-to-end testing capabilities
 - **mockito**: Mock generation for isolated testing
 - **build_runner**: Code generation for test mocks
 
