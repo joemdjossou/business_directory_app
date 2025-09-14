@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models/business.dart';
+import '../../utils/color_scheme.dart';
 import 'base_card.dart';
 
 /// Business-specific card implementation
@@ -20,15 +21,19 @@ class BusinessCard extends BaseCard<Business> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Business name
-        Text(
-          business.name,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor,
+        // Business name with gradient effect
+        ShaderMask(
+          shaderCallback:
+              (bounds) => AppColorScheme.primaryGradient.createShader(bounds),
+          child: Text(
+            business.name,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 8.0),
 
@@ -86,7 +91,7 @@ class BusinessCard extends BaseCard<Business> {
               Text(
                 'View Details',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).primaryColor,
+                  color: AppColorScheme.primaryGreen,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -94,7 +99,7 @@ class BusinessCard extends BaseCard<Business> {
               Icon(
                 Icons.arrow_forward_ios,
                 size: 12.0,
-                color: Theme.of(context).primaryColor,
+                color: AppColorScheme.primaryGreen,
               ),
             ],
           ),
