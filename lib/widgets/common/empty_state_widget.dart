@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/constants.dart';
 
 /// Empty state widget for when no data is available
@@ -30,12 +31,14 @@ class EmptyStateWidget extends StatelessWidget {
           children: [
             // Empty state icon
             Icon(
-              icon ?? (isSearch ? Icons.search_off : Icons.business_off),
+              icon ?? (isSearch ? Icons.search_off : Icons.business),
               size: 64.0,
-              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withOpacity(0.6),
             ),
             const SizedBox(height: 16.0),
-            
+
             // Empty state title
             Text(
               title ?? (isSearch ? 'No Results Found' : 'No Businesses'),
@@ -46,18 +49,21 @@ class EmptyStateWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8.0),
-            
+
             // Empty state message
             Text(
-              message ?? (isSearch 
-                ? AppConstants.searchNoResultsMessage
-                : AppConstants.noDataMessage),
+              message ??
+                  (isSearch
+                      ? AppConstants.searchNoResultsMessage
+                      : AppConstants.noDataMessage),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.8),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurfaceVariant.withOpacity(0.8),
               ),
               textAlign: TextAlign.center,
             ),
-            
+
             // Action button
             if (onAction != null && actionText != null) ...[
               const SizedBox(height: 24.0),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/business_provider.dart';
-import '../widgets/cards/business_card.dart';
-import '../widgets/common/loading_widget.dart';
-import '../widgets/common/error_widget.dart';
-import '../widgets/common/empty_state_widget.dart';
 import '../utils/constants.dart';
+import '../widgets/cards/business_card.dart';
+import '../widgets/common/empty_state_widget.dart';
+import '../widgets/common/error_widget.dart' as custom;
+import '../widgets/common/loading_widget.dart';
 import 'business_detail_screen.dart';
 import 'search_screen.dart';
 
@@ -85,30 +86,34 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
     switch (provider.state) {
       case AppState.initial:
       case AppState.loading:
-        return const LoadingWidget(
-          message: 'Loading businesses...',
-        );
-      
+        return const LoadingWidget(message: 'Loading businesses...');
+
       case AppState.error:
-        return ErrorWidget(
+        return custom.ErrorWidget(
           message: provider.errorMessage,
           onRetry: () => provider.retry(),
           isOffline: provider.isOffline,
         );
-      
+
       case AppState.empty:
         return EmptyStateWidget(
-          title: provider.searchQuery.isNotEmpty ? 'No Results Found' : 'No Businesses',
-          message: provider.searchQuery.isNotEmpty 
-            ? 'Try adjusting your search terms'
-            : 'No businesses are currently available',
-          onAction: provider.searchQuery.isNotEmpty 
-            ? () => provider.clearSearch()
-            : () => provider.retry(),
-          actionText: provider.searchQuery.isNotEmpty ? 'Clear Search' : 'Retry',
+          title:
+              provider.searchQuery.isNotEmpty
+                  ? 'No Results Found'
+                  : 'No Businesses',
+          message:
+              provider.searchQuery.isNotEmpty
+                  ? 'Try adjusting your search terms'
+                  : 'No businesses are currently available',
+          onAction:
+              provider.searchQuery.isNotEmpty
+                  ? () => provider.clearSearch()
+                  : () => provider.retry(),
+          actionText:
+              provider.searchQuery.isNotEmpty ? 'Clear Search' : 'Retry',
           isSearch: provider.searchQuery.isNotEmpty,
         );
-      
+
       case AppState.loaded:
       case AppState.refreshing:
         return _buildBusinessList(provider);
@@ -120,10 +125,10 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
       children: [
         // Search bar
         if (provider.searchQuery.isNotEmpty) _buildSearchBar(provider),
-        
+
         // Business count and offline indicator
         _buildHeader(provider),
-        
+
         // Business list
         Expanded(
           child: ListView.builder(
@@ -184,7 +189,10 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
           ),
           if (provider.isOffline)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 4.0,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.error.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12.0),
@@ -216,9 +224,7 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
   void _navigateToSearch() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const SearchScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const SearchScreen()),
     );
   }
 

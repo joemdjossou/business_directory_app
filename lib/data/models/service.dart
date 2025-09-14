@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 /// Service domain model for future extensibility
 class Service {
   final String id;

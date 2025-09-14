@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 /// Business domain model with data validation and normalization
 class Business {
   final String id;
@@ -46,12 +44,12 @@ class Business {
     if (value == null) {
       throw ValidationException('Required field is null');
     }
-    
+
     final stringValue = value.toString().trim();
     if (stringValue.isEmpty) {
       throw ValidationException('Required field is empty');
     }
-    
+
     return stringValue;
   }
 
@@ -97,7 +95,7 @@ class Business {
 class ValidationException implements Exception {
   final String message;
   const ValidationException(this.message);
-  
+
   @override
   String toString() => 'ValidationException: $message';
 }

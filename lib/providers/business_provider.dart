@@ -1,22 +1,16 @@
 import 'package:flutter/foundation.dart';
+
 import '../data/models/business.dart';
 import '../data/repositories/business_repository.dart';
 import '../utils/constants.dart';
 
 /// App state enumeration for clear state management
-enum AppState {
-  initial,
-  loading,
-  loaded,
-  error,
-  empty,
-  refreshing,
-}
+enum AppState { initial, loading, loaded, error, empty, refreshing }
 
 /// Business provider for state management using Provider pattern
 class BusinessProvider extends ChangeNotifier {
   final BusinessRepository _repository;
-  
+
   // State variables
   List<Business> _businesses = [];
   List<Business> _filteredBusinesses = [];
@@ -36,7 +30,8 @@ class BusinessProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String get searchQuery => _searchQuery;
   bool get isOffline => _isOffline;
-  bool get isLoading => _state == AppState.loading || _state == AppState.refreshing;
+  bool get isLoading =>
+      _state == AppState.loading || _state == AppState.refreshing;
   bool get hasError => _state == AppState.error;
   bool get isEmpty => _state == AppState.empty;
   bool get isLoaded => _state == AppState.loaded;
@@ -50,8 +45,10 @@ class BusinessProvider extends ChangeNotifier {
         _setState(AppState.refreshing);
       }
 
-      final businesses = await _repository.getBusinesses(forceRefresh: forceRefresh);
-      
+      final businesses = await _repository.getBusinesses(
+        forceRefresh: forceRefresh,
+      );
+
       if (businesses.isEmpty) {
         _setState(AppState.empty);
       } else {
@@ -59,7 +56,7 @@ class BusinessProvider extends ChangeNotifier {
         _applySearch();
         _setState(AppState.loaded);
       }
-      
+
       _isOffline = false;
     } catch (e) {
       _handleError(e);
@@ -77,20 +74,25 @@ class BusinessProvider extends ChangeNotifier {
     if (_searchQuery.isEmpty) {
       _filteredBusinesses = List.from(_businesses);
     } else {
-      _filteredBusinesses = _businesses.where((business) {
-        final nameMatch = business.name.toLowerCase().contains(_searchQuery.toLowerCase());
-        final locationMatch = business.location.toLowerCase().contains(_searchQuery.toLowerCase());
-        return nameMatch || locationMatch;
-      }).toList();
+      _filteredBusinesses =
+          _businesses.where((business) {
+            final nameMatch = business.name.toLowerCase().contains(
+              _searchQuery.toLowerCase(),
+            );
+            final locationMatch = business.location.toLowerCase().contains(
+              _searchQuery.toLowerCase(),
+            );
+            return nameMatch || locationMatch;
+          }).toList();
     }
-    
+
     // Update state based on filtered results
     if (_filteredBusinesses.isEmpty && _searchQuery.isNotEmpty) {
       _setState(AppState.empty);
     } else if (_businesses.isNotEmpty) {
       _setState(AppState.loaded);
     }
-    
+
     notifyListeners();
   }
 
@@ -125,7 +127,7 @@ class BusinessProvider extends ChangeNotifier {
   /// Handle errors and set appropriate state
   void _handleError(dynamic error) {
     _errorMessage = _getErrorMessage(error);
-    
+
     // If we have cached data, show it with offline indicator
     if (_businesses.isNotEmpty) {
       _isOffline = true;
@@ -137,7 +139,8 @@ class BusinessProvider extends ChangeNotifier {
 
   /// Get user-friendly error message
   String _getErrorMessage(dynamic error) {
-    if (error.toString().contains('network') || error.toString().contains('connection')) {
+    if (error.toString().contains('network') ||
+        error.toString().contains('connection')) {
       return AppConstants.networkErrorMessage;
     } else if (error.toString().contains('validation')) {
       return 'Data validation error. Please check the data format.';
@@ -169,13 +172,11 @@ class BusinessProvider extends ChangeNotifier {
 
   /// Get businesses by location
   List<Business> getBusinessesByLocation(String location) {
-    return _businesses.where((business) => 
-      business.location.toLowerCase().contains(location.toLowerCase())
-    ).toList();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    return _businesses
+        .where(
+          (business) =>
+              business.location.toLowerCase().contains(location.toLowerCase()),
+        )
+        .toList();
   }
 }
