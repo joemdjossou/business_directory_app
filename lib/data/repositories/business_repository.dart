@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
+import '../../utils/constants.dart';
+import '../../utils/validators.dart';
 import '../models/business.dart';
 import '../services/api_service.dart';
 import '../services/local_storage_service.dart';
-import '../../utils/constants.dart';
-import '../../utils/validators.dart';
 
 /// Repository pattern for business data access
 class BusinessRepository {
@@ -19,11 +21,11 @@ class BusinessRepository {
         try {
           final freshData = await _apiService.getBusinesses();
           final businesses = _parseBusinesses(freshData);
-          
+
           // Cache the fresh data
           await _localStorageService.saveBusinesses(businesses);
           await _localStorageService.setLastUpdated(DateTime.now());
-          
+
           return businesses;
         } catch (e) {
           // If fresh data fails, try to load from cache
@@ -36,12 +38,12 @@ class BusinessRepository {
       } else {
         // Load from cache first, then refresh in background
         final cachedBusinesses = await _localStorageService.getBusinesses();
-        
+
         // Refresh in background if cache is old
         if (await _isCacheStale()) {
           _refreshInBackground();
         }
-        
+
         return cachedBusinesses;
       }
     } catch (e) {
@@ -57,42 +59,44 @@ class BusinessRepository {
   /// Parse raw JSON data into Business objects with validation
   List<Business> _parseBusinesses(List<Map<String, dynamic>> rawData) {
     final businesses = <Business>[];
-    
+
     for (final json in rawData) {
       try {
         // Validate JSON structure
         if (!Validators.isValidBusinessJson(json)) {
           throw ValidationException('Invalid business data structure: $json');
         }
-        
+
         // Create and validate business object
         final business = Business.fromJson(json);
-        
+
         // Additional validation
         if (!Validators.isValidBusinessName(business.name)) {
           throw ValidationException('Invalid business name: ${business.name}');
         }
-        
+
         if (!Validators.isValidLocation(business.location)) {
           throw ValidationException('Invalid location: ${business.location}');
         }
-        
+
         if (!Validators.isValidPhoneNumber(business.contactNumber)) {
-          throw ValidationException('Invalid phone number: ${business.contactNumber}');
+          throw ValidationException(
+            'Invalid phone number: ${business.contactNumber}',
+          );
         }
-        
+
         businesses.add(business);
       } catch (e) {
         // Log validation errors but continue processing other businesses
-        print('Error parsing business data: $e');
+        debugPrint('Error parsing business data: $e');
         continue;
       }
     }
-    
+
     if (businesses.isEmpty) {
       throw Exception('No valid businesses found in data');
     }
-    
+
     return businesses;
   }
 
@@ -111,7 +115,7 @@ class BusinessRepository {
     try {
       final lastUpdated = await _localStorageService.getLastUpdated();
       if (lastUpdated == null) return true;
-      
+
       final now = DateTime.now();
       final difference = now.difference(lastUpdated);
       return difference > AppConstants.cacheExpiry;
@@ -126,12 +130,12 @@ class BusinessRepository {
       try {
         final freshData = await _apiService.getBusinesses();
         final businesses = _parseBusinesses(freshData);
-        
+
         await _localStorageService.saveBusinesses(businesses);
         await _localStorageService.setLastUpdated(DateTime.now());
       } catch (e) {
         // Background refresh failed, but we don't want to disrupt the user
-        print('Background refresh failed: $e');
+        debugPrint('Background refresh failed: $e');
       }
     });
   }
@@ -151,14 +155,16 @@ class BusinessRepository {
     if (!Validators.isValidSearchQuery(query)) {
       return [];
     }
-    
+
     try {
       final businesses = await getBusinesses();
       final normalizedQuery = Validators.sanitizeInput(query).toLowerCase();
-      
+
       return businesses.where((business) {
         final nameMatch = business.name.toLowerCase().contains(normalizedQuery);
-        final locationMatch = business.location.toLowerCase().contains(normalizedQuery);
+        final locationMatch = business.location.toLowerCase().contains(
+          normalizedQuery,
+        );
         return nameMatch || locationMatch;
       }).toList();
     } catch (e) {
@@ -170,11 +176,15 @@ class BusinessRepository {
   Future<List<Business>> getBusinessesByLocation(String location) async {
     try {
       final businesses = await getBusinesses();
-      final normalizedLocation = Validators.sanitizeInput(location).toLowerCase();
-      
-      return businesses.where((business) => 
-        business.location.toLowerCase().contains(normalizedLocation)
-      ).toList();
+      final normalizedLocation =
+          Validators.sanitizeInput(location).toLowerCase();
+
+      return businesses
+          .where(
+            (business) =>
+                business.location.toLowerCase().contains(normalizedLocation),
+          )
+          .toList();
     } catch (e) {
       return [];
     }

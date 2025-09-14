@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../utils/constants.dart';
 
 /// API service using Dio for network requests
@@ -17,15 +20,17 @@ class ApiService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('Request: ${options.method} ${options.path}');
+          debugPrint('Request: ${options.method} ${options.path}');
           handler.next(options);
         },
         onResponse: (response, handler) {
-          print('Response: ${response.statusCode} ${response.requestOptions.path}');
+          debugPrint(
+            'Response: ${response.statusCode} ${response.requestOptions.path}',
+          );
           handler.next(response);
         },
         onError: (error, handler) {
-          print('Error: ${error.message}');
+          debugPrint('Error: ${error.message}');
           handler.next(error);
         },
       ),
@@ -41,11 +46,13 @@ class ApiService {
     try {
       // Simulate network delay
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       // Load from local JSON file
-      final jsonString = await rootBundle.loadString('lib/data/local/businesses.json');
+      final jsonString = await rootBundle.loadString(
+        'lib/data/local/businesses.json',
+      );
       final List<dynamic> jsonList = json.decode(jsonString);
-      
+
       // Convert to List<Map<String, dynamic>>
       return jsonList.cast<Map<String, dynamic>>();
     } catch (e) {
@@ -58,13 +65,13 @@ class ApiService {
     try {
       // Simulate API call
       await Future.delayed(const Duration(milliseconds: 300));
-      
+
       final businesses = await getBusinesses();
       final business = businesses.firstWhere(
         (b) => b['id'] == id,
         orElse: () => throw ApiException('Business not found'),
       );
-      
+
       return business;
     } catch (e) {
       throw ApiException('Failed to get business: ${e.toString()}');
@@ -76,14 +83,16 @@ class ApiService {
     try {
       // Simulate API call
       await Future.delayed(const Duration(milliseconds: 400));
-      
+
       final businesses = await getBusinesses();
       final normalizedQuery = query.toLowerCase();
-      
+
       return businesses.where((business) {
         final name = business['biz_name']?.toString().toLowerCase() ?? '';
-        final location = business['bss_location']?.toString().toLowerCase() ?? '';
-        return name.contains(normalizedQuery) || location.contains(normalizedQuery);
+        final location =
+            business['bss_location']?.toString().toLowerCase() ?? '';
+        return name.contains(normalizedQuery) ||
+            location.contains(normalizedQuery);
       }).toList();
     } catch (e) {
       throw ApiException('Failed to search businesses: ${e.toString()}');
@@ -91,20 +100,25 @@ class ApiService {
   }
 
   /// Get businesses by location (for future API integration)
-  Future<List<Map<String, dynamic>>> getBusinessesByLocation(String location) async {
+  Future<List<Map<String, dynamic>>> getBusinessesByLocation(
+    String location,
+  ) async {
     try {
       // Simulate API call
       await Future.delayed(const Duration(milliseconds: 400));
-      
+
       final businesses = await getBusinesses();
       final normalizedLocation = location.toLowerCase();
-      
+
       return businesses.where((business) {
-        final businessLocation = business['bss_location']?.toString().toLowerCase() ?? '';
+        final businessLocation =
+            business['bss_location']?.toString().toLowerCase() ?? '';
         return businessLocation.contains(normalizedLocation);
       }).toList();
     } catch (e) {
-      throw ApiException('Failed to get businesses by location: ${e.toString()}');
+      throw ApiException(
+        'Failed to get businesses by location: ${e.toString()}',
+      );
     }
   }
 
@@ -135,7 +149,7 @@ class ApiService {
 class ApiException implements Exception {
   final String message;
   const ApiException(this.message);
-  
+
   @override
   String toString() => 'ApiException: $message';
 }

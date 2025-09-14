@@ -40,7 +40,7 @@ class Validators {
   /// Validate search query
   static bool isValidSearchQuery(String query) {
     final trimmed = query.trim();
-    return trimmed.isNotEmpty && trimmed.length >= 1;
+    return trimmed.isNotEmpty;
   }
 
   /// Sanitize input string

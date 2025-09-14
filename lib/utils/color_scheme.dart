@@ -18,7 +18,12 @@ class AppColorScheme {
   static const Color gradientEnd = Color(0xFF2E7D32); // Deep green end
 
   // Background Colors
-  static const Color backgroundLight = Color(0xFFF8F9FA); // Very light gray
+  static const Color backgroundLight = Color.fromARGB(
+    255,
+    241,
+    242,
+    192,
+  ); // Very light gray
   static const Color backgroundDark = Color(0xFF121212); // Dark mode background
   static const Color surfaceLight = Color(0xFFFFFFFF); // White surface
   static const Color surfaceDark = Color(0xFF1E1E1E); // Dark surface

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/business_provider.dart';
 import '../utils/constants.dart';
 import '../widgets/cards/business_card.dart';
+import '../widgets/common/animated_fab.dart';
 import '../widgets/common/empty_state_widget.dart';
 import '../widgets/common/error_widget.dart' as custom;
 import '../widgets/common/loading_widget.dart';
@@ -68,15 +69,37 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
       floatingActionButton: Consumer<BusinessProvider>(
         builder: (context, provider, child) {
           if (provider.isOffline) {
-            return FloatingActionButton.extended(
+            return AnimatedFAB(
               onPressed: () => _refreshBusinesses(),
-              icon: const Icon(Icons.wifi_off),
-              label: const Text('Retry'),
               backgroundColor: Theme.of(context).colorScheme.error,
-              foregroundColor: Colors.white,
+              tooltip: 'Retry Connection',
+              child: const Icon(Icons.wifi_off),
             );
           }
-          return const SizedBox.shrink();
+          return ExpandableFAB(
+            items: [
+              FABMenuItem(
+                icon: const Icon(Icons.search),
+                label: 'Search',
+                onPressed: _navigateToSearch,
+              ),
+              FABMenuItem(
+                icon: const Icon(Icons.refresh),
+                label: 'Refresh',
+                onPressed: _refreshBusinesses,
+              ),
+              FABMenuItem(
+                icon: const Icon(Icons.filter_list),
+                label: 'Filter',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Filter coming soon!')),
+                  );
+                },
+              ),
+            ],
+            child: const Icon(Icons.menu),
+          );
         },
       ),
     );
@@ -138,6 +161,7 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
               final business = provider.businesses[index];
               return BusinessCard(
                 business: business,
+                index: index,
                 onTap: () => _navigateToDetail(business),
               );
             },
@@ -226,7 +250,27 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
   void _navigateToSearch() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SearchScreen()),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SearchScreen(),
+        transitionDuration: const Duration(milliseconds: 400),
+        reverseTransitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+            )),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -234,8 +278,26 @@ class _BusinessListScreenState extends State<BusinessListScreen> {
     context.read<BusinessProvider>().selectBusiness(business);
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => BusinessDetailScreen(business: business),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            BusinessDetailScreen(business: business),
+        transitionDuration: const Duration(milliseconds: 400),
+        reverseTransitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+            )),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
       ),
     );
   }

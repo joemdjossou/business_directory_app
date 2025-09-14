@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/constants.dart';
 
 /// Generic base card widget that can render any type of item
@@ -11,14 +12,14 @@ abstract class BaseCard<T> extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   const BaseCard({
-    Key? key,
+    super.key,
     required this.item,
     this.onTap,
     this.padding,
     this.margin,
     this.elevation,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   /// Abstract method to build the content of the card
   Widget buildContent(BuildContext context, T item);
@@ -33,16 +34,22 @@ abstract class BaseCard<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: elevation ?? AppConstants.cardElevation,
-      margin: margin ?? const EdgeInsets.symmetric(
-        horizontal: AppConstants.listPadding,
-        vertical: 4.0,
-      ),
+      margin:
+          margin ??
+          const EdgeInsets.symmetric(
+            horizontal: AppConstants.listPadding,
+            vertical: 4.0,
+          ),
       shape: RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(AppConstants.cardBorderRadius),
+        borderRadius:
+            borderRadius ??
+            BorderRadius.circular(AppConstants.cardBorderRadius),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: borderRadius ?? BorderRadius.circular(AppConstants.cardBorderRadius),
+        borderRadius:
+            borderRadius ??
+            BorderRadius.circular(AppConstants.cardBorderRadius),
         child: Padding(
           padding: padding ?? const EdgeInsets.all(16.0),
           child: Semantics(
