@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:business_directory_app/data/models/business.dart';
 import 'package:business_directory_app/widgets/cards/business_card.dart';
-import 'package:business_directory_app/utils/color_scheme.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -21,9 +20,7 @@ void main() {
 
     testWidgets('displays business information correctly', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       // Wait for animations to complete
@@ -36,9 +33,7 @@ void main() {
 
     testWidgets('displays location and phone icons', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       await tester.pumpAndSettle();
@@ -47,15 +42,14 @@ void main() {
       expect(find.byIcon(Icons.phone), findsOneWidget);
     });
 
-    testWidgets('shows action indicator when onTap is provided', (tester) async {
+    testWidgets('shows action indicator when onTap is provided', (
+      tester,
+    ) async {
       bool tapped = false;
 
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          BusinessCard(
-            business: testBusiness,
-            onTap: () => tapped = true,
-          ),
+          BusinessCard(business: testBusiness, onTap: () => tapped = true),
         ),
       );
 
@@ -71,9 +65,7 @@ void main() {
 
     testWidgets('hides action indicator when onTap is null', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       await tester.pumpAndSettle();
@@ -85,7 +77,8 @@ void main() {
     testWidgets('handles long business names with ellipsis', (tester) async {
       final longNameBusiness = Business(
         id: 'long-name-business',
-        name: 'This is a very long business name that should be truncated with ellipsis',
+        name:
+            'This is a very long business name that should be truncated with ellipsis',
         location: 'Test Location',
         contactNumber: '+1234567890',
       );
@@ -123,9 +116,10 @@ void main() {
 
       // Find the location text widget (second text widget with overflow)
       final locationTexts = find.byWidgetPredicate(
-        (widget) => widget is Text && 
-                   widget.overflow == TextOverflow.ellipsis &&
-                   widget.maxLines == 1,
+        (widget) =>
+            widget is Text &&
+            widget.overflow == TextOverflow.ellipsis &&
+            widget.maxLines == 1,
       );
       expect(locationTexts, findsAtLeastNWidgets(1));
     });
@@ -133,16 +127,13 @@ void main() {
     testWidgets('handles index for staggered animation', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          BusinessCard(
-            business: testBusiness,
-            index: 2,
-          ),
+          BusinessCard(business: testBusiness, index: 2),
         ),
       );
 
       // The card should be initially invisible due to animation delay
       expect(find.byType(BusinessCard), findsOneWidget);
-      
+
       // Wait for staggered animation delay (index 2 = 200ms delay)
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 150));
@@ -179,9 +170,7 @@ void main() {
 
     testWidgets('has correct semantic labels', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       await tester.pumpAndSettle();
@@ -192,9 +181,7 @@ void main() {
 
     testWidgets('renders gradient text effect', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       await tester.pumpAndSettle();
@@ -206,16 +193,14 @@ void main() {
 
     testWidgets('has proper info row structure', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          BusinessCard(business: testBusiness),
-        ),
+        TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
       );
 
       await tester.pumpAndSettle();
 
       // Should have animated containers for info rows
       expect(find.byType(AnimatedContainer), findsAtLeastNWidgets(2));
-      
+
       // Should have location and phone info
       expect(find.byIcon(Icons.location_on), findsOneWidget);
       expect(find.byIcon(Icons.phone), findsOneWidget);
@@ -224,43 +209,39 @@ void main() {
     group('Animation Tests', () {
       testWidgets('applies fade animation', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            BusinessCard(business: testBusiness),
-          ),
+          TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
         );
 
         // Initially should have FadeTransition
         expect(find.byType(FadeTransition), findsOneWidget);
-        
+
         await tester.pumpAndSettle();
-        
+
         // After animation completes, content should be visible
         expect(find.text('Test Business Name'), findsOneWidget);
       });
 
       testWidgets('handles mouse hover states', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            BusinessCard(business: testBusiness),
-          ),
+          TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
         );
 
         await tester.pumpAndSettle();
 
         // Find the MouseRegion widget
         expect(find.byType(MouseRegion), findsOneWidget);
-        
+
         // Simulate hover enter
-        final mouseRegion = tester.widget<MouseRegion>(find.byType(MouseRegion));
+        final mouseRegion = tester.widget<MouseRegion>(
+          find.byType(MouseRegion),
+        );
         expect(mouseRegion.onEnter, isNotNull);
         expect(mouseRegion.onExit, isNotNull);
       });
 
       testWidgets('has proper transform animations', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            BusinessCard(business: testBusiness),
-          ),
+          TestHelpers.wrapWithMaterialApp(BusinessCard(business: testBusiness)),
         );
 
         await tester.pumpAndSettle();

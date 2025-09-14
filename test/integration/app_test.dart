@@ -116,7 +116,7 @@ void main() {
         if (copyButtons.evaluate().isNotEmpty) {
           await tester.tap(copyButtons.first);
           await tester.pumpAndSettle();
-          
+
           // Should show snackbar
           expect(find.byType(SnackBar), findsOneWidget);
         }
@@ -126,7 +126,7 @@ void main() {
         if (shareButtons.evaluate().isNotEmpty) {
           await tester.tap(shareButtons.first);
           await tester.pumpAndSettle();
-          
+
           // Should show snackbar
           expect(find.byType(SnackBar), findsOneWidget);
         }
@@ -135,16 +135,16 @@ void main() {
 
     testWidgets('loading states test', (tester) async {
       app.main();
-      
+
       // Should show loading state initially
       await tester.pump(const Duration(milliseconds: 100));
-      
+
       // Look for loading indicators
       expect(find.byType(CircularProgressIndicator), findsAny);
-      
+
       // Wait for loading to complete
       await tester.pumpAndSettle(const Duration(seconds: 5));
-      
+
       // Should show business list
       expect(find.byType(BusinessCard), findsAtLeastNWidgets(1));
     });
@@ -220,7 +220,7 @@ void main() {
         of: find.byType(AppBar),
         matching: find.byType(IconButton),
       );
-      
+
       // Actions should be functional (refresh, etc.)
       for (final action in appBarActions.evaluate()) {
         // Test that actions don't crash
@@ -231,26 +231,26 @@ void main() {
 
     testWidgets('animations performance test', (tester) async {
       app.main();
-      
+
       // Test that animations don't cause performance issues
       await tester.pumpAndSettle(const Duration(seconds: 1));
-      
+
       // Navigate to different screens quickly
       final searchFAB = find.byType(FloatingActionButton);
       if (searchFAB.evaluate().isNotEmpty) {
         await tester.tap(searchFAB);
         await tester.pump(const Duration(milliseconds: 100));
-        
+
         await tester.pageBack();
         await tester.pump(const Duration(milliseconds: 100));
-        
+
         await tester.tap(searchFAB);
         await tester.pump(const Duration(milliseconds: 100));
-        
+
         await tester.pageBack();
         await tester.pumpAndSettle();
       }
-      
+
       // Should complete without errors
       expect(tester.takeException(), isNull);
     });

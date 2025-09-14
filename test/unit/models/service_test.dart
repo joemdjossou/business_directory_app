@@ -36,14 +36,14 @@ void main() {
 
     test('fromJson handles null price', () {
       validServiceJson['price'] = null;
-      
+
       final service = Service.fromJson(validServiceJson);
       expect(service.price, isNull);
     });
 
     test('fromJson handles missing fields with empty strings', () {
       final minimalJson = <String, dynamic>{};
-      
+
       final service = Service.fromJson(minimalJson);
       expect(service.id, equals(''));
       expect(service.name, equals(''));
@@ -54,7 +54,7 @@ void main() {
 
     test('fromJson converts price to double', () {
       validServiceJson['price'] = 50; // int
-      
+
       final service = Service.fromJson(validServiceJson);
       expect(service.price, equals(50.0));
     });
@@ -91,7 +91,7 @@ void main() {
 
     test('inequality operator works correctly', () {
       final service1 = Service.fromJson(validServiceJson);
-      
+
       validServiceJson['name'] = 'Different Service';
       final service2 = Service.fromJson(validServiceJson);
 
@@ -111,7 +111,7 @@ void main() {
 
     test('services with different prices are not equal', () {
       final service1 = Service.fromJson(validServiceJson);
-      
+
       validServiceJson['price'] = 149.99;
       final service2 = Service.fromJson(validServiceJson);
 
@@ -120,7 +120,7 @@ void main() {
 
     test('services with null vs non-null prices are not equal', () {
       final service1 = Service.fromJson(validServiceJson);
-      
+
       validServiceJson['price'] = null;
       final service2 = Service.fromJson(validServiceJson);
 

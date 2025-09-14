@@ -35,33 +35,34 @@ class _AnimatedFABState extends State<AnimatedFAB>
   @override
   void initState() {
     super.initState();
-    
+
     _scaleController = AnimationController(
       duration: AnimationUtils.slowDuration,
       vsync: this,
     );
-    
+
     _rotationController = AnimationController(
       duration: AnimationUtils.normalDuration,
       vsync: this,
     );
-    
-    _scaleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _scaleController,
-      curve: AnimationUtils.bounceCurve,
-    ));
-    
+
+    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _scaleController,
+        curve: AnimationUtils.bounceCurve,
+      ),
+    );
+
     _rotationAnimation = Tween<double>(
       begin: 0.0,
       end: 0.25, // Quarter turn
-    ).animate(CurvedAnimation(
-      parent: _rotationController,
-      curve: AnimationUtils.smoothCurve,
-    ));
-    
+    ).animate(
+      CurvedAnimation(
+        parent: _rotationController,
+        curve: AnimationUtils.smoothCurve,
+      ),
+    );
+
     // Start entrance animation
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scaleController.forward();
@@ -81,7 +82,7 @@ class _AnimatedFABState extends State<AnimatedFAB>
       _rotationController.forward().then((_) {
         _rotationController.reverse();
       });
-      
+
       widget.onPressed!();
     }
   }
@@ -100,10 +101,13 @@ class _AnimatedFABState extends State<AnimatedFAB>
                 angle: _rotationAnimation.value * 2 * 3.14159,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(widget.mini ? 28.0 : 32.0),
+                    borderRadius: BorderRadius.circular(
+                      widget.mini ? 28.0 : 32.0,
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: (widget.backgroundColor ?? AppColorScheme.primaryGreen)
+                        color: (widget.backgroundColor ??
+                                AppColorScheme.primaryGreen)
                             .withValues(alpha: 0.3),
                         blurRadius: 16.0,
                         offset: const Offset(0, 8.0),
@@ -112,7 +116,8 @@ class _AnimatedFABState extends State<AnimatedFAB>
                   ),
                   child: FloatingActionButton(
                     onPressed: _onPressed,
-                    backgroundColor: widget.backgroundColor ?? AppColorScheme.primaryGreen,
+                    backgroundColor:
+                        widget.backgroundColor ?? AppColorScheme.primaryGreen,
                     foregroundColor: AppColorScheme.textOnPrimary,
                     mini: widget.mini,
                     heroTag: widget.heroTag,
@@ -205,12 +210,12 @@ class _ExpandableFABState extends State<ExpandableFAB>
               ),
             ),
           ),
-        
+
         // Menu items
         ...widget.items.asMap().entries.map((entry) {
           final index = entry.key;
           final item = entry.value;
-          
+
           return Positioned(
             right: 8.0,
             bottom: 80.0 + (index * 70.0), // Stack items vertically
@@ -226,9 +231,9 @@ class _ExpandableFABState extends State<ExpandableFAB>
                     curve: AnimationUtils.bounceCurve,
                   ),
                 );
-                
+
                 final animationValue = delayedAnimation.value.clamp(0.0, 1.0);
-                
+
                 return Transform.scale(
                   scale: animationValue,
                   child: Opacity(
@@ -277,7 +282,7 @@ class _ExpandableFABState extends State<ExpandableFAB>
             ),
           );
         }),
-        
+
         // Main FAB
         AnimatedFAB(
           onPressed: _toggle,

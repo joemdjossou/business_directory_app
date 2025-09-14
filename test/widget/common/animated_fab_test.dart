@@ -10,9 +10,7 @@ void main() {
       const testIcon = Icon(Icons.add);
 
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          const AnimatedFAB(child: testIcon),
-        ),
+        TestHelpers.wrapWithMaterialApp(const AnimatedFAB(child: testIcon)),
       );
 
       await TestHelpers.waitForAnimations(tester);
@@ -44,10 +42,7 @@ void main() {
 
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          const AnimatedFAB(
-            tooltip: testTooltip,
-            child: Icon(Icons.add),
-          ),
+          const AnimatedFAB(tooltip: testTooltip, child: Icon(Icons.add)),
         ),
       );
 
@@ -64,10 +59,7 @@ void main() {
 
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          const AnimatedFAB(
-            backgroundColor: testColor,
-            child: Icon(Icons.add),
-          ),
+          const AnimatedFAB(backgroundColor: testColor, child: Icon(Icons.add)),
         ),
       );
 
@@ -82,10 +74,7 @@ void main() {
     testWidgets('supports mini FAB', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          const AnimatedFAB(
-            mini: true,
-            child: Icon(Icons.add),
-          ),
+          const AnimatedFAB(mini: true, child: Icon(Icons.add)),
         ),
       );
 
@@ -116,10 +105,7 @@ void main() {
     testWidgets('has rotation animation on press', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          AnimatedFAB(
-            onPressed: () {},
-            child: const Icon(Icons.add),
-          ),
+          AnimatedFAB(onPressed: () {}, child: const Icon(Icons.add)),
         ),
       );
 
@@ -170,10 +156,7 @@ void main() {
     testWidgets('displays main FAB correctly', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -186,10 +169,7 @@ void main() {
     testWidgets('expands menu when main FAB is tapped', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -211,10 +191,7 @@ void main() {
     testWidgets('has backdrop when expanded', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -231,10 +208,7 @@ void main() {
     testWidgets('collapses when backdrop is tapped', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -255,10 +229,7 @@ void main() {
     testWidgets('menu items have correct labels and icons', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -275,7 +246,6 @@ void main() {
 
     testWidgets('menu item onPressed works correctly', (tester) async {
       bool searchPressed = false;
-      bool refreshPressed = false;
 
       final items = [
         FABMenuItem(
@@ -285,17 +255,14 @@ void main() {
         ),
         FABMenuItem(
           icon: const Icon(Icons.refresh),
-          label: 'Refresh', 
-          onPressed: () => refreshPressed = true,
+          label: 'Refresh',
+          onPressed: () {},
         ),
       ];
 
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: items,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: items, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -309,7 +276,7 @@ void main() {
       final searchFABs = find.byWidgetPredicate(
         (widget) => widget is FloatingActionButton && widget.mini == true,
       );
-      
+
       if (searchFABs.evaluate().isNotEmpty) {
         await tester.tap(searchFABs.first);
         expect(searchPressed, isTrue);
@@ -319,10 +286,7 @@ void main() {
     testWidgets('has stack-based layout', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 
@@ -335,10 +299,7 @@ void main() {
     testWidgets('positions items correctly', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          ExpandableFAB(
-            items: testItems,
-            child: const Icon(Icons.menu),
-          ),
+          ExpandableFAB(items: testItems, child: const Icon(Icons.menu)),
         ),
       );
 

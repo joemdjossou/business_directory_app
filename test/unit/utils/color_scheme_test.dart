@@ -59,28 +59,76 @@ void main() {
 
     group('Business Categories', () {
       test('getCategoryColor returns correct colors for known categories', () {
-        expect(AppColorScheme.getCategoryColor('restaurant'), const Color(0xFFFF5722));
-        expect(AppColorScheme.getCategoryColor('shopping'), const Color(0xFF9C27B0));
-        expect(AppColorScheme.getCategoryColor('services'), AppColorScheme.primaryGreen);
-        expect(AppColorScheme.getCategoryColor('healthcare'), const Color(0xFF2196F3));
-        expect(AppColorScheme.getCategoryColor('automotive'), const Color(0xFF607D8B));
-        expect(AppColorScheme.getCategoryColor('beauty'), const Color(0xFFE91E63));
-        expect(AppColorScheme.getCategoryColor('education'), const Color(0xFF3F51B5));
-        expect(AppColorScheme.getCategoryColor('entertainment'), const Color(0xFFFF9800));
-        expect(AppColorScheme.getCategoryColor('finance'), const Color(0xFF4CAF50));
-        expect(AppColorScheme.getCategoryColor('technology'), const Color(0xFF795548));
+        expect(
+          AppColorScheme.getCategoryColor('restaurant'),
+          const Color(0xFFFF5722),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('shopping'),
+          const Color(0xFF9C27B0),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('services'),
+          AppColorScheme.primaryGreen,
+        );
+        expect(
+          AppColorScheme.getCategoryColor('healthcare'),
+          const Color(0xFF2196F3),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('automotive'),
+          const Color(0xFF607D8B),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('beauty'),
+          const Color(0xFFE91E63),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('education'),
+          const Color(0xFF3F51B5),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('entertainment'),
+          const Color(0xFFFF9800),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('finance'),
+          const Color(0xFF4CAF50),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('technology'),
+          const Color(0xFF795548),
+        );
       });
 
       test('getCategoryColor is case insensitive', () {
-        expect(AppColorScheme.getCategoryColor('RESTAURANT'), const Color(0xFFFF5722));
-        expect(AppColorScheme.getCategoryColor('Restaurant'), const Color(0xFFFF5722));
-        expect(AppColorScheme.getCategoryColor('rEsTaUrAnT'), const Color(0xFFFF5722));
+        expect(
+          AppColorScheme.getCategoryColor('RESTAURANT'),
+          const Color(0xFFFF5722),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('Restaurant'),
+          const Color(0xFFFF5722),
+        );
+        expect(
+          AppColorScheme.getCategoryColor('rEsTaUrAnT'),
+          const Color(0xFFFF5722),
+        );
       });
 
       test('getCategoryColor returns default for unknown categories', () {
-        expect(AppColorScheme.getCategoryColor('unknown'), AppColorScheme.primaryGreen);
-        expect(AppColorScheme.getCategoryColor(''), AppColorScheme.primaryGreen);
-        expect(AppColorScheme.getCategoryColor('not-a-category'), AppColorScheme.primaryGreen);
+        expect(
+          AppColorScheme.getCategoryColor('unknown'),
+          AppColorScheme.primaryGreen,
+        );
+        expect(
+          AppColorScheme.getCategoryColor(''),
+          AppColorScheme.primaryGreen,
+        );
+        expect(
+          AppColorScheme.getCategoryColor('not-a-category'),
+          AppColorScheme.primaryGreen,
+        );
       });
     });
 
@@ -89,13 +137,25 @@ void main() {
         expect(AppColorScheme.getStatusColor('active'), AppColorScheme.online);
         expect(AppColorScheme.getStatusColor('open'), AppColorScheme.online);
         expect(AppColorScheme.getStatusColor('online'), AppColorScheme.online);
-        
-        expect(AppColorScheme.getStatusColor('inactive'), AppColorScheme.offline);
+
+        expect(
+          AppColorScheme.getStatusColor('inactive'),
+          AppColorScheme.offline,
+        );
         expect(AppColorScheme.getStatusColor('closed'), AppColorScheme.offline);
-        expect(AppColorScheme.getStatusColor('offline'), AppColorScheme.offline);
-        
-        expect(AppColorScheme.getStatusColor('pending'), AppColorScheme.pending);
-        expect(AppColorScheme.getStatusColor('processing'), AppColorScheme.pending);
+        expect(
+          AppColorScheme.getStatusColor('offline'),
+          AppColorScheme.offline,
+        );
+
+        expect(
+          AppColorScheme.getStatusColor('pending'),
+          AppColorScheme.pending,
+        );
+        expect(
+          AppColorScheme.getStatusColor('processing'),
+          AppColorScheme.pending,
+        );
       });
 
       test('getStatusColor is case insensitive', () {
@@ -105,16 +165,22 @@ void main() {
       });
 
       test('getStatusColor returns default for unknown statuses', () {
-        expect(AppColorScheme.getStatusColor('unknown'), AppColorScheme.textSecondary);
+        expect(
+          AppColorScheme.getStatusColor('unknown'),
+          AppColorScheme.textSecondary,
+        );
         expect(AppColorScheme.getStatusColor(''), AppColorScheme.textSecondary);
-        expect(AppColorScheme.getStatusColor('not-a-status'), AppColorScheme.textSecondary);
+        expect(
+          AppColorScheme.getStatusColor('not-a-status'),
+          AppColorScheme.textSecondary,
+        );
       });
     });
 
     group('Gradient Definitions', () {
       test('primaryGradient has correct properties', () {
         const gradient = AppColorScheme.primaryGradient;
-        
+
         expect(gradient.begin, Alignment.topLeft);
         expect(gradient.end, Alignment.bottomRight);
         expect(gradient.colors.length, 3);
@@ -126,7 +192,7 @@ void main() {
 
       test('lightGradient has correct properties', () {
         const gradient = AppColorScheme.lightGradient;
-        
+
         expect(gradient.begin, Alignment.topCenter);
         expect(gradient.end, Alignment.bottomCenter);
         expect(gradient.colors.length, 2);
@@ -137,7 +203,7 @@ void main() {
 
       test('circularGradient has correct properties', () {
         const gradient = AppColorScheme.circularGradient;
-        
+
         expect(gradient.center, Alignment.center);
         expect(gradient.radius, 0.8);
         expect(gradient.colors.length, 3);
@@ -153,29 +219,29 @@ void main() {
         const testColor = Color(0xFF123456);
         final result = AppColorScheme.withOpacity(testColor, 0.5);
         
-        expect(result.alpha, equals((255 * 0.5).round()));
-        expect(result.red, equals(testColor.red));
-        expect(result.green, equals(testColor.green));
-        expect(result.blue, equals(testColor.blue));
+        expect(result.a, closeTo(0.5, 0.01));
+        expect(result.r, equals(testColor.r));
+        expect(result.g, equals(testColor.g));
+        expect(result.b, equals(testColor.b));
       });
 
       test('lighten makes color lighter', () {
         const testColor = Color(0xFF808080); // Medium gray
         final result = AppColorScheme.lighten(testColor, 0.2);
-        
+
         final originalHsl = HSLColor.fromColor(testColor);
         final resultHsl = HSLColor.fromColor(result);
-        
+
         expect(resultHsl.lightness, greaterThan(originalHsl.lightness));
       });
 
       test('darken makes color darker', () {
         const testColor = Color(0xFF808080); // Medium gray
         final result = AppColorScheme.darken(testColor, 0.2);
-        
+
         final originalHsl = HSLColor.fromColor(testColor);
         final resultHsl = HSLColor.fromColor(result);
-        
+
         expect(resultHsl.lightness, lessThan(originalHsl.lightness));
       });
 
@@ -196,14 +262,14 @@ void main() {
   group('AppColorSchemeExtension Tests', () {
     test('categoryColor extension method works', () {
       const colorScheme = ColorScheme.light();
-      
+
       expect(colorScheme.categoryColor('restaurant'), const Color(0xFFFF5722));
       expect(colorScheme.categoryColor('unknown'), AppColorScheme.primaryGreen);
     });
 
     test('statusColor extension method works', () {
       const colorScheme = ColorScheme.light();
-      
+
       expect(colorScheme.statusColor('active'), AppColorScheme.online);
       expect(colorScheme.statusColor('unknown'), AppColorScheme.textSecondary);
     });
@@ -211,7 +277,7 @@ void main() {
     test('businessCardSurface returns correct color for brightness', () {
       const lightScheme = ColorScheme.light();
       const darkScheme = ColorScheme.dark();
-      
+
       expect(lightScheme.businessCardSurface, AppColorScheme.cardBackground);
       expect(darkScheme.businessCardSurface, AppColorScheme.cardBackgroundDark);
     });
@@ -219,7 +285,7 @@ void main() {
     test('interactiveSurface returns correct color for brightness', () {
       const lightScheme = ColorScheme.light();
       const darkScheme = ColorScheme.dark();
-      
+
       expect(lightScheme.interactiveSurface, AppColorScheme.ripple);
       expect(darkScheme.interactiveSurface, AppColorScheme.splash);
     });

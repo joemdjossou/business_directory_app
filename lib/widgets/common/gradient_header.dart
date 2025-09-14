@@ -34,7 +34,7 @@ class GradientHeader extends StatelessWidget {
         children: [
           // Background pattern
           if (showPattern) _buildBackgroundPattern(),
-          
+
           // Content
           SafeArea(
             child: Padding(
@@ -92,9 +92,7 @@ class GradientHeader extends StatelessWidget {
 
   Widget _buildBackgroundPattern() {
     return Positioned.fill(
-      child: CustomPaint(
-        painter: _GradientPatternPainter(),
-      ),
+      child: CustomPaint(painter: _GradientPatternPainter()),
     );
   }
 }
@@ -102,40 +100,33 @@ class GradientHeader extends StatelessWidget {
 class _GradientPatternPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColorScheme.textOnPrimary.withValues(alpha: 0.1)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = AppColorScheme.textOnPrimary.withValues(alpha: 0.1)
+          ..style = PaintingStyle.fill;
 
     // Draw circular patterns similar to Geny app
     final centerX = size.width * 0.8;
     final centerY = size.height * 0.3;
-    
+
     // Large circle
-    canvas.drawCircle(
-      Offset(centerX, centerY),
-      60.0,
-      paint,
-    );
-    
+    canvas.drawCircle(Offset(centerX, centerY), 60.0, paint);
+
     // Medium circle
     canvas.drawCircle(
       Offset(centerX - 40, centerY + 50),
       35.0,
       paint..color = AppColorScheme.textOnPrimary.withValues(alpha: 0.08),
     );
-    
+
     // Small circles
     canvas.drawCircle(
       Offset(centerX + 30, centerY - 20),
       20.0,
       paint..color = AppColorScheme.textOnPrimary.withValues(alpha: 0.06),
     );
-    
-    canvas.drawCircle(
-      Offset(centerX - 70, centerY - 30),
-      15.0,
-      paint,
-    );
+
+    canvas.drawCircle(Offset(centerX - 70, centerY - 30), 15.0, paint);
   }
 
   @override
@@ -164,9 +155,7 @@ class CircularGradientWidget extends StatelessWidget {
         gradient: AppColorScheme.circularGradient,
         shape: BoxShape.circle,
       ),
-      child: child != null
-          ? Center(child: child!)
-          : null,
+      child: child != null ? Center(child: child!) : null,
     );
 
     if (animate) {
@@ -175,10 +164,7 @@ class CircularGradientWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeOutBack,
         builder: (context, value, child) {
-          return Transform.scale(
-            scale: value,
-            child: gradientContainer,
-          );
+          return Transform.scale(scale: value, child: gradientContainer);
         },
       );
     }

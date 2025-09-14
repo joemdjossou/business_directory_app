@@ -104,7 +104,7 @@ void main() {
 
     test('inequality operator works correctly', () {
       final business1 = Business.fromJson(validBusinessJson);
-      
+
       validBusinessJson['biz_name'] = 'Different Business';
       final business2 = Business.fromJson(validBusinessJson);
 
@@ -132,14 +132,14 @@ void main() {
     test('_generateId handles special characters in names', () {
       validBusinessJson['biz_name'] = 'Test & Co.';
       validBusinessJson['bss_location'] = 'New York';
-      
+
       final business = Business.fromJson(validBusinessJson);
       expect(business.id, equals('test_&_co._new_york'));
     });
 
     test('_validateAndNormalize trims whitespace', () {
       validBusinessJson['biz_name'] = '  Test Business  ';
-      
+
       final business = Business.fromJson(validBusinessJson);
       expect(business.name, equals('Test Business'));
     });
@@ -148,7 +148,7 @@ void main() {
   group('ValidationException Tests', () {
     test('ValidationException has correct message', () {
       const exception = ValidationException('Test error');
-      
+
       expect(exception.message, equals('Test error'));
       expect(exception.toString(), equals('ValidationException: Test error'));
     });

@@ -24,11 +24,11 @@ class LocalStorageService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonString = prefs.getString(_businessesKey);
-      
+
       if (jsonString == null || jsonString.isEmpty) {
         return [];
       }
-      
+
       final jsonList = json.decode(jsonString) as List<dynamic>;
       return jsonList.map((json) => Business.fromJson(json)).toList();
     } catch (e) {
@@ -51,11 +51,11 @@ class LocalStorageService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dateString = prefs.getString(_lastUpdatedKey);
-      
+
       if (dateString == null || dateString.isEmpty) {
         return null;
       }
-      
+
       return DateTime.parse(dateString);
     } catch (e) {
       throw StorageException('Failed to load last updated: ${e.toString()}');
@@ -120,7 +120,7 @@ class LocalStorageService {
       final lastUpdated = await getLastUpdated();
       final cacheSize = await getCacheSize();
       final businesses = await getBusinesses();
-      
+
       return {
         'hasData': hasData,
         'lastUpdated': lastUpdated?.toIso8601String(),
@@ -143,7 +143,7 @@ class LocalStorageService {
 class StorageException implements Exception {
   final String message;
   const StorageException(this.message);
-  
+
   @override
   String toString() => 'StorageException: $message';
 }

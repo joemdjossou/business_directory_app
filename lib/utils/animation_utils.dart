@@ -46,10 +46,7 @@ class AnimationUtils {
       position: Tween<Offset>(
         begin: begin,
         end: end,
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: smoothCurve,
-      )),
+      ).animate(CurvedAnimation(parent: animation, curve: smoothCurve)),
       child: child,
     );
   }
@@ -66,10 +63,7 @@ class AnimationUtils {
         scale: Tween<double>(
           begin: scaleFactor,
           end: 1.0,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: bounceCurve,
-        )),
+        ).animate(CurvedAnimation(parent: animation, curve: bounceCurve)),
         child: child,
       ),
     );
@@ -120,10 +114,7 @@ class AnimationUtils {
       duration: duration,
       curve: bounceCurve,
       builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
+        return Transform.scale(scale: value, child: child);
       },
       child: child,
     );
@@ -175,24 +166,13 @@ class AnimationUtils {
       position: Tween<Offset>(
         begin: const Offset(1.0, 0.0),
         end: Offset.zero,
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: smoothCurve,
-      )),
-      child: FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
+      ).animate(CurvedAnimation(parent: animation, curve: smoothCurve)),
+      child: FadeTransition(opacity: animation, child: child),
     );
   }
 }
 
-enum SlideDirection {
-  fromLeft,
-  fromRight,
-  fromTop,
-  fromBottom,
-}
+enum SlideDirection { fromLeft, fromRight, fromTop, fromBottom }
 
 /// Custom animated button with ripple effects
 class AnimatedButton extends StatefulWidget {
@@ -234,10 +214,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -347,17 +324,15 @@ class _LoadingDotsState extends State<LoadingDots>
   void initState() {
     super.initState();
     _controllers = List.generate(3, (index) {
-      return AnimationController(
-        duration: widget.duration,
-        vsync: this,
-      );
+      return AnimationController(duration: widget.duration, vsync: this);
     });
 
-    _animations = _controllers.map((controller) {
-      return Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeInOut),
-      );
-    }).toList();
+    _animations =
+        _controllers.map((controller) {
+          return Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(parent: controller, curve: Curves.easeInOut),
+          );
+        }).toList();
 
     _startAnimations();
   }

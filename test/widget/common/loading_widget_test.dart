@@ -24,9 +24,7 @@ void main() {
 
     testWidgets('hides message when not provided', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          const LoadingWidget(),
-        ),
+        TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
       );
 
       await TestHelpers.waitForAnimations(tester);
@@ -35,7 +33,9 @@ void main() {
       expect(find.textContaining('Loading'), findsNothing);
     });
 
-    testWidgets('displays skeleton cards when showSkeleton is true', (tester) async {
+    testWidgets('displays skeleton cards when showSkeleton is true', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
           const LoadingWidget(showSkeleton: true),
@@ -46,12 +46,14 @@ void main() {
 
       // Should have multiple containers for skeleton cards
       expect(find.byType(Container), findsAtLeastNWidgets(3));
-      
+
       // Should have ListView for skeleton cards
       expect(find.byType(ListView), findsOneWidget);
     });
 
-    testWidgets('hides skeleton cards when showSkeleton is false', (tester) async {
+    testWidgets('hides skeleton cards when showSkeleton is false', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
           const LoadingWidget(showSkeleton: false),
@@ -66,9 +68,7 @@ void main() {
 
     testWidgets('has circular loading indicator', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          const LoadingWidget(),
-        ),
+        TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
       );
 
       await TestHelpers.waitForAnimations(tester);
@@ -76,16 +76,14 @@ void main() {
       // Should have a container with circular decoration (our custom indicator)
       final containers = find.byType(Container);
       expect(containers, findsAtLeastNWidgets(1));
-      
+
       // Should have business icon
       expect(find.byIcon(Icons.business), findsOneWidget);
     });
 
     testWidgets('displays loading dots', (tester) async {
       await tester.pumpWidget(
-        TestHelpers.wrapWithMaterialApp(
-          const LoadingWidget(),
-        ),
+        TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
       );
 
       await TestHelpers.waitForAnimations(tester);
@@ -97,10 +95,7 @@ void main() {
     testWidgets('has proper layout structure', (tester) async {
       await tester.pumpWidget(
         TestHelpers.wrapWithMaterialApp(
-          const LoadingWidget(
-            message: 'Test message',
-            showSkeleton: true,
-          ),
+          const LoadingWidget(message: 'Test message', showSkeleton: true),
         ),
       );
 
@@ -108,7 +103,7 @@ void main() {
 
       // Should be centered
       expect(find.byType(Center), findsOneWidget);
-      
+
       // Should have Column layout
       expect(find.byType(Column), findsAtLeastNWidgets(1));
     });
@@ -116,34 +111,30 @@ void main() {
     group('Animation Tests', () {
       testWidgets('has rotation animation controller', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            const LoadingWidget(),
-          ),
+          TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
         );
 
         // Check initial state
         expect(find.byType(LoadingWidget), findsOneWidget);
-        
+
         // Wait and check that animations are running
         await tester.pump(const Duration(milliseconds: 100));
         await tester.pump(const Duration(milliseconds: 500));
-        
+
         // Widget should still be there and animated
         expect(find.byType(LoadingWidget), findsOneWidget);
       });
 
       testWidgets('has pulse animation', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            const LoadingWidget(),
-          ),
+          TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
         );
 
         // Should have AnimatedBuilder widgets for animations
         expect(find.byType(AnimatedBuilder), findsAtLeastNWidgets(2));
-        
+
         await TestHelpers.waitForAnimations(tester);
-        
+
         // Animations should still be running
         expect(find.byType(AnimatedBuilder), findsAtLeastNWidgets(2));
       });
@@ -157,9 +148,9 @@ void main() {
 
         // Should have TweenAnimationBuilder for staggered animations
         expect(find.byType(TweenAnimationBuilder), findsAtLeastNWidgets(1));
-        
+
         await TestHelpers.waitForAnimations(tester);
-        
+
         // All skeleton cards should be visible after animations
         expect(find.byType(Container), findsAtLeastNWidgets(3));
       });
@@ -177,7 +168,7 @@ void main() {
 
         // Should have multiple shimmer containers
         expect(find.byType(Container), findsAtLeastNWidgets(3));
-        
+
         // Should have proper skeleton structure
         expect(find.byType(ListView), findsOneWidget);
       });
@@ -186,18 +177,14 @@ void main() {
     group('State Management Tests', () {
       testWidgets('properly disposes animation controllers', (tester) async {
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            const LoadingWidget(),
-          ),
+          TestHelpers.wrapWithMaterialApp(const LoadingWidget()),
         );
 
         await TestHelpers.waitForAnimations(tester);
 
         // Remove the widget to trigger dispose
         await tester.pumpWidget(
-          TestHelpers.wrapWithMaterialApp(
-            const SizedBox(),
-          ),
+          TestHelpers.wrapWithMaterialApp(const SizedBox()),
         );
 
         // Should not throw any errors
